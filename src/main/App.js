@@ -1,14 +1,16 @@
-import Login from "../views/login";
+import React from "react";
 import "bootswatch/dist/flatly/bootstrap.css";
+import NavBar from "../components/navBar";
 import "../custom.css";
-import CadastroUsuario from "../views/cadastroUsuario";
-
+import Rotas from "./rotas";
 function App() {
   return (
-    <div>
-      <Login />
-      <CadastroUsuario></CadastroUsuario>
-    </div>
+    <>
+      <NavBar />
+      <div className="container">
+        <Rotas />
+      </div>
+    </>
   );
 }
 
