@@ -2,28 +2,33 @@ import React from "react";
 import Card from "../components/cards";
 import FormGroup from "../components/formgroup";
 import { withRouter } from "react-router-dom";
-import axios from "axios";
+import UsuarioService from "../app/services/usuarioService";
+import localStorageService from "../app/services/localStorageService";
+import { mensagemErro } from "../components/toastr";
 
 class Login extends React.Component {
   state = {
     email: "",
     senha: "",
-    mensagemErro: null,
   };
 
+  constructor() {
+    super();
+    this.service = new UsuarioService();
+  }
+
   entrar = () => {
-    axios
-      .post("http://localhost:8080/api/usuarios/autenticar", {
+    this.service
+      .autenticar({
         email: this.state.email,
         senha: this.state.senha,
       })
       .then((response) => {
-        console.log(response.data);
-        localStorage.setItem("_usuario_logado", JSON.stringify(response.data));
+        localStorageService.adicionarItem("_usuario_logado", response.data);
         this.props.history.push("/home");
       })
       .catch((erro) => {
-        this.setState({ mensagemErro: erro.response.data });
+        mensagemErro(erro.response.data);
       });
   };
 
@@ -40,9 +45,6 @@ class Login extends React.Component {
         >
           <Card title="Login">
             <div className="row">
-              <div className="row">
-                <span>{this.state.mensagemErro}</span>
-              </div>
               <div className="col-lg-12">
                 <div className="bs-component">
                   <fieldset>
