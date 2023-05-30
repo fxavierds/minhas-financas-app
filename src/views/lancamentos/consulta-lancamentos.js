@@ -52,6 +52,7 @@ class ConsultaLancamento extends React.Component {
   };
 
   deletar = (lancamento) => {
+    console.log("Editanto ", this.service.deletar);
     this.service
       .deletar(lancamento.id)
       .then((resposta) => {
