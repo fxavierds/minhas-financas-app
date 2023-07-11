@@ -7,6 +7,8 @@ import Lancamentostable from "./lancamentostable";
 import LancamentoService from "../../app/services/lancamentoService";
 import localStorageService from "../../app/services/localStorageService";
 import * as messages from "../../components/toastr";
+import { Dialog } from "primereact/dialog";
+import { Button } from "primereact/button";
 
 class ConsultaLancamento extends React.Component {
   state = {
@@ -15,6 +17,7 @@ class ConsultaLancamento extends React.Component {
     tipo: "",
     descricao: "",
     lancamentos: [],
+    showConfirmDialog: false,
   };
 
   constructor() {
@@ -35,6 +38,7 @@ class ConsultaLancamento extends React.Component {
       tipo: this.state.tipo,
       descricao: this.state.descricao,
       usuario: usuarioLogado.id,
+      lancamentoDeletar: {},
     };
 
     this.service
@@ -51,15 +55,23 @@ class ConsultaLancamento extends React.Component {
     console.log("Editanto ", id);
   };
 
-  deletar = (lancamento) => {
-    console.log("Editanto ", this.service.deletar);
+  abrirConfirmacao = (lancamento) => {
+    this.setState({ showConfirmDialog: true, lancamentoDeletar: lancamento });
+  };
+
+  cancelaDelecao = (lancamento) => {
+    this.setState({ showConfirmDialog: false, lancamentoDeletar: {} });
+  };
+
+  deletar = () => {
+    console.log("Editando ", this.state.lancamentoDeletar);
     this.service
-      .deletar(lancamento.id)
+      .deletar(this.state.lancamentoDeletar.id)
       .then((resposta) => {
         const lancamentos = this.state.lancamentos;
-        const index = lancamentos.indexOf(lancamento);
+        const index = lancamentos.indexOf(this.state.lancamentoDeletar);
         lancamentos.splice(index, 1);
-        this.setState(lancamentos);
+        this.setState({ lancamentos: lancamentos, showConfirmDialog: false });
         messages.mensagemSucesso("Lançamento excluído com sucesso");
       })
       .catch((error) => {
@@ -69,9 +81,20 @@ class ConsultaLancamento extends React.Component {
 
   render() {
     const meses = this.service.obterListaMeses();
-
     const tipos = this.service.obterListaTipos();
 
+    const confirmDialogFooter = (
+      <div>
+        <Button label="Sim" icon="pi pi-check" onClick={this.deletar} />
+        <Button
+          label="Não"
+          icon="pi pi-times"
+          onClick={this.cancelaDelecao}
+          className="p-button-text"
+          autoFocus
+        />
+      </div>
+    );
     return (
       <Card title="Consulta Lançamento">
         <div className="row">
@@ -136,10 +159,21 @@ class ConsultaLancamento extends React.Component {
               <Lancamentostable
                 lancamentos={this.state.lancamentos}
                 editAction={this.editar}
-                deleteAction={this.deletar}
+                deleteAction={this.abrirConfirmacao}
               />
             </div>
           </div>
+        </div>
+        <div>
+          <Dialog
+            header="Confirmação"
+            visible={this.state.showConfirmDialog}
+            style={{ width: "50vw" }}
+            footer={confirmDialogFooter}
+            onHide={() => this.setState({ showConfirmDialog: false })}
+          >
+            <p className="m-0">Confirma a exclusão desse lançamento</p>
+          </Dialog>
         </div>
       </Card>
     );
