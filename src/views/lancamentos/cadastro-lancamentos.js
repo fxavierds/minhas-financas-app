@@ -16,11 +16,27 @@ class CadastroLancamento extends React.Component {
     ano: "",
     tipo: "",
     status: "",
+    atualizar: false,
   };
 
   constructor() {
     super();
     this.service = new LancamentoService();
+  }
+
+  componentDidMount() {
+    const params = this.props.match.params;
+    console.log(params);
+    if (params.id) {
+      this.service
+        .obterPorId(params.id)
+        .then((response) => {
+          this.setState({ ...response.data, atualizar: true });
+        })
+        .catch((erros) => {
+          messages.mensagemErro(erros.response.data);
+        });
+    }
   }
 
   handleChange = (event) => {
@@ -53,12 +69,42 @@ class CadastroLancamento extends React.Component {
       });
   };
 
+  atualizar = () => {
+    const { descricao, valor, tipo, mes, ano, status, id, usuario } =
+      this.state;
+    const lancamento = {
+      descricao,
+      valor,
+      tipo,
+      mes,
+      ano,
+      status,
+      id,
+      usuario,
+    };
+    this.service
+      .atualizar(lancamento)
+      .then((response) => {
+        this.props.history.push("/consulta-lancamentos");
+        messages.mensagemSucesso("Lançamento atualizado com sucesso.");
+      })
+      .catch((error) => {
+        messages.mensagemErro(error.response.data);
+      });
+  };
+
   render() {
     const meses = this.service.obterListaMeses();
     const tipos = this.service.obterListaTipos();
 
     return (
-      <Card title="Cadastro de Lançamento">
+      <Card
+        title={
+          this.state.atualizar
+            ? "Atualizar Lançamento"
+            : "Cadastro de Lançamento"
+        }
+      >
         <div className="row">
           <div className="col-md-12">
             <FormGroup id="inputDescricao" label="Descrição">
@@ -124,15 +170,38 @@ class CadastroLancamento extends React.Component {
               ></SelectMenu>
             </FormGroup>
           </div>
+          <div className="col-md-4">
+            <FormGroup id="inputStatus" label="Ano">
+              <input
+                id="inputStatus"
+                name="status"
+                value={this.state.status}
+                disabled
+                type="text"
+                className="form-control"
+              />
+            </FormGroup>
+          </div>
           <div className="row">
             <div className="col-md-4">
-              <button
-                type="button"
-                onClick={this.submit}
-                className="btn btn-success"
-              >
-                Salvar
-              </button>
+              {this.state.atualizar ? (
+                <button
+                  type="button"
+                  onClick={this.atualizar}
+                  className="btn btn-primary"
+                >
+                  Atualizar
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={this.submit}
+                  className="btn btn-success"
+                >
+                  Salvar
+                </button>
+              )}
+
               <button
                 type="button"
                 onClick={(e) =>

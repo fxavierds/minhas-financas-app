@@ -12,7 +12,6 @@ export default (props) => {
         <td>{lancamento.tipo}</td>
         <td>{lancamento.mes}</td>
         <td>{lancamento.status}</td>
-        <td>{lancamento.descricao}</td>
         <td>
           <button
             onClick={(e) => props.editAction(lancamento.id)}
