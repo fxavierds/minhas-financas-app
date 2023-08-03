@@ -26,7 +26,7 @@ class CadastroLancamento extends React.Component {
 
   componentDidMount() {
     const params = this.props.match.params;
-    console.log(params);
+
     if (params.id) {
       this.service
         .obterPorId(params.id)
@@ -58,6 +58,15 @@ class CadastroLancamento extends React.Component {
       ano,
       usuario: usuarioLogado.id,
     };
+
+    try {
+      this.service.validar(lancamento);
+    } catch (erro) {
+      const mensagens = erro.mensagens;
+
+      mensagens.forEach((msg) => messages.mensagemErro(msg));
+      return false;
+    }
     this.service
       .salvar(lancamento)
       .then((response) => {
