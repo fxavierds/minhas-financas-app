@@ -99,10 +99,10 @@ class CadastroUsuario extends React.Component {
                 />
               </FormGroup>
               <button onClick={this.cadastrar} className="btn btn-success">
-                Salvar
+              <i className="pi pi-save"></i>  Salvar
               </button>
               <button onClick={this.cancelar} className="btn btn-danger">
-                Voltar
+              <i className="pi pi-times"></i> Voltar
               </button>
             </div>
           </div>

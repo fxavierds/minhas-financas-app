@@ -197,9 +197,9 @@ class CadastroLancamento extends React.Component {
                 <button
                   type="button"
                   onClick={this.atualizar}
-                  className="btn btn-primary"
+                  className="btn btn-success"
                 >
-                  Atualizar
+                  <i className="pi pi-refresh"></i> Atualizar
                 </button>
               ) : (
                 <button
@@ -207,7 +207,7 @@ class CadastroLancamento extends React.Component {
                   onClick={this.submit}
                   className="btn btn-success"
                 >
-                  Salvar
+                   <i className="pi pi-save"></i> Salvar
                 </button>
               )}
 
@@ -218,7 +218,7 @@ class CadastroLancamento extends React.Component {
                 }
                 className="btn btn-danger"
               >
-                Cancelar
+                 <i className="pi pi-times"></i> Cancelar
               </button>
             </div>
           </div>
