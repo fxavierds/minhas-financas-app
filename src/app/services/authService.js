@@ -11,4 +11,12 @@ export default class authService {
     static removerUsuarioAutenticado(){
         localStorageService.removerItem(USUARIO_LOGADO);
     }
+
+    static logar(usuario){
+        localStorageService.adicionarItem(USUARIO_LOGADO, usuario);
+    }
+
+    static obterUsuarioAutenticado(){
+        return localStorageService.obterItem(USUARIO_LOGADO);
+    }
 }

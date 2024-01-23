@@ -26,7 +26,7 @@ function RotaAutenticada({component: Component, ...props}){
   )
 }
 
-function Rotas() {
+function Rotas() { 
   return (
     <HashRouter>
       <Switch>
