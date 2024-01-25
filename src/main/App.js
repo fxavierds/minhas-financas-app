@@ -7,17 +7,18 @@ import "toastr/build/toastr.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import ProvedorAutenticacao from "./provedorAutenticacao";
 
 import Rotas from "./rotas";
 
 function App() {
   return (
-    <>
+    <ProvedorAutenticacao>
       <NavBar />
       <div className="container">
         <Rotas />
       </div>
-    </>
+    </ProvedorAutenticacao>
   );
 }
 

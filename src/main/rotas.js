@@ -3,16 +3,16 @@ import { Route, Switch, HashRouter } from "react-router-dom";
 import Login from "../views/login";
 import CadastroUsuario from "../views/cadastroUsuario";
 import Home from "../views/home";
-import authService from "../app/services/authService";
 import ConsultaLancamentos from "../views/lancamentos/consulta-lancamentos";
 import CadastroLancamentos from "../views/lancamentos/cadastro-lancamentos";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import { AuthConsumer } from "./provedorAutenticacao";
 
 
-function RotaAutenticada({component: Component, ...props}){
+function RotaAutenticada({component: Component, isUsuarioAutenticado, ...props}){
   return (
     <Route { ...props} render={(componentProps) => {
-        if(authService.isUsuarioAutenticado()){
+        if(isUsuarioAutenticado){
           return(
             <Component {...componentProps}/>
           )
@@ -31,9 +31,9 @@ function Rotas() {
     <HashRouter>
       <Switch>
         <Route path="/login" component={Login} />
-        <Route path="/home" component={Home} />
-        
-        <RotaAutenticada path="/cadastro-usuarios" component={CadastroUsuario} />
+        <Route path="/cadastro-usuarios" component={CadastroUsuario} />
+                
+        <RotaAutenticada path="/home" component={Home} />
         <RotaAutenticada path="/consulta-lancamentos" component={ConsultaLancamentos} />
         <RotaAutenticada
           path="/cadastro-lancamentos/:id?"
