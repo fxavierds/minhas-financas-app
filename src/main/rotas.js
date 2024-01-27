@@ -26,16 +26,17 @@ function RotaAutenticada({component: Component, isUsuarioAutenticado, ...props})
   )
 }
 
-function Rotas() { 
+function Rotas(props) { 
   return (
     <HashRouter>
       <Switch>
         <Route path="/login" component={Login} />
         <Route path="/cadastro-usuarios" component={CadastroUsuario} />
                 
-        <RotaAutenticada path="/home" component={Home} />
-        <RotaAutenticada path="/consulta-lancamentos" component={ConsultaLancamentos} />
+        <RotaAutenticada isUsuarioAutenticado={props.isUsuarioAutenticado} path="/home" component={Home} />
+        <RotaAutenticada isUsuarioAutenticado={props.isUsuarioAutenticado} path="/consulta-lancamentos" component={ConsultaLancamentos} />
         <RotaAutenticada
+          isUsuarioAutenticado={props.isUsuarioAutenticado}
           path="/cadastro-lancamentos/:id?"
           component={CadastroLancamentos}
         />
@@ -44,4 +45,8 @@ function Rotas() {
   );
 }
 
-export default Rotas;
+export default () => (
+  <AuthConsumer>
+    {(context) => (<Rotas isUsuarioAutenticado={context.isAutenticado}/>)}
+  </AuthConsumer>
+);
