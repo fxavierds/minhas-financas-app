@@ -28,7 +28,7 @@ class UsuarioService extends ApiService {
     if (!usuario.email) {
       erros.push("O campo email é obrigatório");
     } else if (
-      !usuario.email.match(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i)
+      usuario.email.match(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i)
     ) {
       erros.push("Informe um email válido");
     }
