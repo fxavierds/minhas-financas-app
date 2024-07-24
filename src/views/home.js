@@ -14,15 +14,15 @@ class Home extends React.Component {
 
   componentDidMount() {
     const usuarioLogado = this.context.usuarioAutenticado;
-    console.log("usuario", this.context);
+    
     this.service
       .obterPorUsuario(usuarioLogado.id)
       .then((response) => {
         this.setState({ saldo: response.data });
       })
       .catch((erro) => {
-        console.log(erro.response);
-      });
+       console.log(erro.response);
+      }); 
   }
 
   render() {
