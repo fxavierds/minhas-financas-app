@@ -8,10 +8,13 @@ export const TOKEN = "acess_token";
 export default class authService {
     static isUsuarioAutenticado(){
         const token = localStorageService.obterItem(TOKEN);
-        const decodeToken = jwt.decode(token);
-        const expiration = decodeToken.exp;
-        const isTokenInValido = Date.now() >= (expiration * 1000);
-
+        let isTokenInValido = true;
+        if(token) {
+            const decodeToken = jwt.decode(token);
+            const expiration = decodeToken.exp;
+            isTokenInValido = Date.now() >= (expiration * 1000);
+        }
+        
         return !isTokenInValido;
     }
 

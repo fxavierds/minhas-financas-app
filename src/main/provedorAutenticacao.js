@@ -1,7 +1,6 @@
 import React from "react";
 import AuthService from "../app/services/authService";
 import jwt from "jsonwebtoken";
-import authService from "../app/services/authService";
 
 export const AuthContext = React.createContext();
 export const AuthConsumer = AuthContext.Consumer;
@@ -32,10 +31,10 @@ class ProvedorAutenticacao extends React.Component{
     }
 
     componentDidMount(){
-        const isAutenticado = authService.isUsuarioAutenticado();
+        const isAutenticado = AuthService.isUsuarioAutenticado();
         
         if(isAutenticado){
-            const usuario = authService.refreshSession();
+            const usuario = AuthService.refreshSession();
             this.setState({
                 isAutenticado: true,
                 usuarioAutenticado: usuario

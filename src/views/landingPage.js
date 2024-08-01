@@ -10,7 +10,7 @@ class LandingPage extends React.Component {
     render(){
         return(
             <div className='container text-center'>
-                <h2>Bem-veindo ao sistema Minhas Finanças</h2>
+                <h2>Bem-vindo ao sistema Minhas Finanças</h2>
                 Este é seu sistema para controle de Finanças Pessoais,
                 clique no botão abaixo para acessar o sistema: <br/><br/>
 

@@ -35,6 +35,7 @@ class ApiService {
 
   get(url) {
     const requestUrl = `${this.apiurl}${url}`;
+    console.log("http", httpClient)
     return httpClient.get(requestUrl);
   }
 }
